@@ -1,4 +1,4 @@
-# Barnyard [2006] Discord RPC Integration 
+# Barnyard [2006] — Discord RPC Integration 
 
 ### Features
   - Story Mode Progress
