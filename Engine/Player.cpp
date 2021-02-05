@@ -18,12 +18,15 @@ Player::Player(ReaderHelper* rh) {
 bool Player::UpdateLocation()
 {
     int readedWorld = g_pReaderHelper->ReadAddress(Offsets::Player::World, 1);
-    int readedLocation = g_pReaderHelper->ReadAddress(Offsets::Player::Location, 8);
+    int readedLocation = -1;
 
-    if (readedLocation != LocationID || readedWorld != WorldID)
+    if (readedWorld == 0)
+        readedLocation = g_pReaderHelper->ReadAddress(Offsets::Player::Location, 8);
+
+    if ((readedLocation != LocationID && readedLocation != 1) || readedWorld != WorldID)
     {
         WorldID = readedWorld;
-        LocationID = readedLocation;
+        if (readedLocation != -1) LocationID = readedLocation;
 
         return TRUE;
     }

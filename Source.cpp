@@ -27,8 +27,8 @@ DWORD WINAPI MainThread(LPVOID lpArgs)
 	while (true)
 	{
 		bool locationUpdated  = g_pPlayer->UpdateLocation();
-		bool positionUpdated = g_pPlayer->UpdatePosition();
-		bool bucksUpdated  = g_pPlayer->UpdateGBucks();
+		//bool positionUpdated  = g_pPlayer->UpdatePosition();
+		bool bucksUpdated = g_pPlayer->UpdateGBucks();
 		bool storyModeUpdated = g_pPlayer->UpdateStoryProgress();
 
 		if (locationUpdated || storyModeUpdated || bucksUpdated)

@@ -11,6 +11,7 @@ uintptr_t ReaderHelper::ReadAddress(const uintptr_t offsets[], int size)
 
     for (int i = 0; i < size; i++)
     {
+        if (addr + offsets[i] >= 0xFFFFFFF) return NULL;
         if (addr != NULL) addr = *(uintptr_t*)(addr + offsets[i]);
         if (addr >= 0xFFFFFFF) return NULL;
     }
@@ -25,6 +26,7 @@ Vector3 ReaderHelper::ReadVector3(const uintptr_t offsets[], int size) {
 
     for (int i = 0; i < size; i++)
     {
+        if (addr + offsets[i] >= 0xFFFFFFF) return vec;
         if (addr != NULL) addr = *(uintptr_t*)(addr + offsets[i]);
         if (addr >= 0xFFFFFFF) return vec;
     }
