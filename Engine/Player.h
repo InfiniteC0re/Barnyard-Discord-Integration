@@ -12,8 +12,17 @@ public:
 
 	Vector3 Position;
 	int LocationID;
+	int WorldID;
+	int GBucks;
+
+	// Story
+	int Act;
+	int Tier;
+	int CurrentQuest;
 
 	bool UpdateLocation();
 	bool UpdatePosition();
+	bool UpdateGBucks();
+	bool UpdateStoryProgress();
 };
 

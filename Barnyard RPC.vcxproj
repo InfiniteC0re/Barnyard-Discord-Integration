@@ -40,17 +40,17 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -146,6 +146,7 @@
     <ClCompile Include="Discord RPC\src\rpc_connection.cpp" />
     <ClCompile Include="Discord RPC\src\serialization.cpp" />
     <ClCompile Include="Engine\Player.cpp" />
+    <ClCompile Include="Engine\Misc.cpp" />
     <ClCompile Include="Utils\Discord.cpp" />
     <ClCompile Include="Utils\ReaderHelper.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Discord RPC\src\msg_queue.h" />
     <ClInclude Include="Discord RPC\src\rpc_connection.h" />
     <ClInclude Include="Discord RPC\src\serialization.h" />
+    <ClInclude Include="Engine\Misc.h" />
     <ClInclude Include="RapidJSON\allocators.h" />
     <ClInclude Include="RapidJSON\document.h" />
     <ClInclude Include="RapidJSON\encodedstream.h" />

@@ -12,23 +12,23 @@ void Discord::Initialize()
 	Discord_Initialize("800986404490182677", &Handle, 1, NULL);
 }
 
-void Discord::Update(char state[256], char location[256], char largeImageKey[32])
+void Discord::Update(char state[256], char details[256], char largeImageKey[32], char smallImageText[128])
 {
 	DiscordRichPresence drp;
 	memset(&drp, 0, sizeof(drp));
 
 	drp.state = state;
+	drp.details = details;
 	drp.startTimestamp = eptime;
 	drp.largeImageKey = largeImageKey;
 
-	if (largeImageKey != "default") {
-		drp.largeImageText = location;
+	if (largeImageKey != "default")
 		drp.smallImageKey = "default";
+
+	if (smallImageText[0] == '\0')
 		drp.smallImageText = "Created by InfiniteC0re";
-	}
-	else {
-		
-	}
+	else
+		drp.smallImageText = smallImageText;
 
 	Discord_UpdatePresence(&drp);
 }

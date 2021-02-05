@@ -5,35 +5,29 @@ ReaderHelper::ReaderHelper(uintptr_t base)
     BaseAddress = base;
 }
 
-uintptr_t ReaderHelper::ReadInteger(uintptr_t baseAddress, const uintptr_t offsets[], int size)
+uintptr_t ReaderHelper::ReadAddress(const uintptr_t offsets[], int size)
 {
-    uintptr_t addr = baseAddress;
+    uintptr_t addr = BaseAddress;
 
-    int lastElem = size - 1;
-    for (int i = 0; i < lastElem; i++)
+    for (int i = 0; i < size; i++)
     {
         if (addr != NULL) addr = *(uintptr_t*)(addr + offsets[i]);
-
-        if (addr >= 0xFFFFFFF) return -1;
+        if (addr >= 0xFFFFFFF) return NULL;
     }
-
-    if (addr != NULL && addr < 0xFFFFFFF) addr = *(uintptr_t*)(addr + offsets[lastElem]);
 
     return addr;
 }
 
-Vector3 ReaderHelper::ReadVector3(uintptr_t baseAddress, const uintptr_t offsets[], int size) {
+Vector3 ReaderHelper::ReadVector3(const uintptr_t offsets[], int size) {
     Vector3 vec;
 
-    uintptr_t addr = baseAddress;
+    uintptr_t addr = BaseAddress;
 
     for (int i = 0; i < size; i++)
     {
         if (addr != NULL) addr = *(uintptr_t*)(addr + offsets[i]);
         if (addr >= 0xFFFFFFF) return vec;
     }
-
-    std::cout << "Addr: " << std::hex << addr << std::endl;
 
     if (addr != NULL)
     {
@@ -249,6 +243,104 @@ const char* ReaderHelper::readLocationImage(int id)
         break;
     default:
         return "default";
+        break;
+    }
+}
+
+const char* ReaderHelper::ReadWorldName(int id)
+{
+    switch (id) {
+    case 0:
+        return "Main World";
+        break;
+    case 1:
+        return "Mud Jumpers";
+        break;
+    case 2:
+        return "Night Barn";
+        break;
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+        char returnVal[256];
+        sprintf_s(returnVal, "Golf: Hole %d", id - 2);
+        return returnVal;
+        break;
+    case 21:
+        return "Chicken Launch";
+        break;
+    case 22:
+        return "Main Menu";
+        break;
+    case 23:
+        return "Tease The Mailman";
+        break;
+    case 24:
+        return "Tease Mrs. Beady";
+        break;
+    case 25:
+        return "Honey Collecting";
+        break;
+    case 26:
+        return "Day Barn";
+        break;
+    case 27:
+        return "Gopher Underground";
+        break;
+    case 28:
+        return "Cow Tipping";
+        break;
+    case 29:
+        return "Vegetable Petch Defender ";
+        break;
+    case 31:
+        return "Barnyard Pool";
+        break;
+    case 32:
+        return "Whack-A-Rack";
+        break;
+    case 33:
+        return "Milk Bar";
+        break;
+    case 34:
+        return "Joy Ride";
+        break;
+    case 35:
+        return "Kitchen";
+        break;
+    case 36:
+        return "Mixing Cocktails";
+        break;
+    case 37:
+        return "Chicken Coop Defender";
+        break;
+    case 42:
+    case 43:
+        return "Barnyard Darts";
+        break;
+    case 55:
+        return "Coyote Showdown";
+        break;
+    case 57:
+        return "Loading Screen";
+        break;
+    default:
+        return "Minigame";
         break;
     }
 }

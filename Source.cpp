@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <iostream>
+#include <string>
 #include <locale>
 
 #include "Utils\ReaderHelper.h"
@@ -25,25 +26,52 @@ DWORD WINAPI MainThread(LPVOID lpArgs)
 
 	while (true)
 	{
-		bool didLocationUpdated = g_pPlayer->UpdateLocation();
-		bool gotPosition = g_pPlayer->UpdatePosition();
+		bool locationUpdated  = g_pPlayer->UpdateLocation();
+		bool positionUpdated = g_pPlayer->UpdatePosition();
+		bool bucksUpdated  = g_pPlayer->UpdateGBucks();
+		bool storyModeUpdated = g_pPlayer->UpdateStoryProgress();
 
-		if (didLocationUpdated)
+		if (locationUpdated || storyModeUpdated || bucksUpdated)
 		{
-			int locationID = g_pPlayer->LocationID;
-
-			const char* locationName = g_pReaderHelper->readLocationName(locationID);
-			const char* locationImage = g_pReaderHelper->readLocationImage(locationID);
-			char RPCLargeImageText[256];
+			char RPCSmallImageText[128];
 			char RPCLargeImage[32];
 			char RPCState[256];
+			char RPCDetails[256];
 
-			sprintf_s(RPCState, "");
-			sprintf_s(RPCLargeImageText, locationName);
-			sprintf_s(RPCLargeImage, "%s", locationImage);
+			if (g_pPlayer->WorldID == 0)
+			{
+				const char* locationName = g_pReaderHelper->readLocationName(g_pPlayer->LocationID);
+				const char* locationImage = g_pReaderHelper->readLocationImage(g_pPlayer->LocationID);
 
-			rpcClient.Update(RPCLargeImageText, RPCState, RPCLargeImage);
-			cout << "Location updated: " << locationName << " (" << locationID << ")" << endl;
+				sprintf_s(RPCDetails, locationName);
+				sprintf_s(RPCLargeImage, "%s", locationImage);
+			}
+			else
+			{
+				const char* worldName = g_pReaderHelper->ReadWorldName(g_pPlayer->WorldID);
+				sprintf_s(RPCDetails, "%s", worldName);
+				sprintf_s(RPCLargeImage, "%s", "default");
+			}
+
+			if (g_pPlayer->WorldID == 0 || g_pPlayer->WorldID == 2 || g_pPlayer->WorldID == 26 || g_pPlayer->WorldID == 35 || g_pPlayer->WorldID == 36)
+			{
+				if (storyModeUpdated)
+					sprintf_s(RPCSmallImageText, "Story Progress: %d%%", (int)(g_pPlayer->CurrentQuest / 51.0f * 100));
+
+				if (g_pPlayer->GBucks > 0)
+					sprintf_s(RPCState, "Bucks: %d", g_pPlayer->GBucks);
+			}
+			else
+			{
+				// Reset stats
+				sprintf_s(RPCState, "");
+				sprintf_s(RPCSmallImageText, "");
+			}
+
+			rpcClient.Update(RPCState, RPCDetails, RPCLargeImage, RPCSmallImageText);
+#ifdef _DEBUG
+			cout << "Location updated: " << RPCDetails << " (" << g_pPlayer->LocationID << ", " << g_pPlayer->WorldID << ")" << endl;
+#endif
 		}
 
 		Sleep(500);
@@ -58,14 +86,16 @@ DWORD APIENTRY DllMain(HINSTANCE instance, DWORD reason, LPVOID reserved)
 	switch (reason)
 	{
 	case DLL_PROCESS_ATTACH:
+
+#ifdef _DEBUG
 		AllocConsole();
 		FILE* fp;
 		freopen_s(&fp, "CONOUT$", "w", stdout);
 
 		setlocale(LC_ALL, "Russian");
 		SetConsoleOutputCP(866);
+#endif
 
-		// Создаём поток
 		CreateThread(NULL, NULL, MainThread, instance, NULL, NULL);
 
 		break;

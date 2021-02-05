@@ -41,6 +41,9 @@
     <ClCompile Include="Utils\Discord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Misc.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\ReaderHelper.h">
@@ -182,6 +185,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="RapidJSON\writer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Misc.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

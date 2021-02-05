@@ -6,5 +6,5 @@
 class Discord {
 public:
 	void Initialize();
-	void Update(char state[256], char location[256], char largeImageKey[32]);
+	void Update(char state[256], char details[256], char largeImageKey[32], char smallImageText[128]);
 };
